@@ -12,10 +12,23 @@ int t = 0; // time (expressed in 1/samp_rate seconds) -> usually 1/44100
 double osc1(int t);
 double osc2(int t);
 
+// default constructor for our recorder.
+maxiRecorder recorder;
 
-void setup() {//some inits
-    //nothing to go here this time
+
+void setup() {
+    
+    // Call setup here, make sure you do this so the recorder
+    // knows where to write the file. Currently the recorder
+    // will write the wav file to the directory that this file
+    // is in if you use linux but with mac and windows I
+    // strongly reccomend putting an absolute file path to the
+    // directory you want to write to. Also, when in Windows,
+    // remember to do double '\' characters because they
+    // count as an escape which will nullify any path you write
+    recorder.setup("niceRec.wav");
 }
+
 
 void play(double *output) {
     
@@ -35,6 +48,14 @@ void play(double *output) {
     
     output[0]= mixL;
     output[1]= mixR;
+    
+    //UNCOMMENT TO RECORD (it was creating a runtime error when I tried)
+    // After we have filled our output array, send the array
+    // and the size of the array (in this case the amount of
+    // channels, but in ofx or juce you might need to do
+    // something like channels*bufferSize).
+    //recorder.passData(output, maxiSettings::channels);
+    
     
     t++;
  
